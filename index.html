@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днём Рождения!</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b, #ffb347, #4facfe);
+            background-size: 400% 400%;
+            animation: gradientBG 8s ease infinite;
+            font-family: 'Arial Black', Impact, sans-serif;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #start-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        #start-btn {
+            padding: 22px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            background: #ff2e63;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 30px #ff2e63;
+            transition: transform 0.2s;
+        }
+
+        #start-btn:hover {
+            transform: scale(1.08);
+        }
+
+        h1 {
+            font-size: 32px;
+            text-shadow: 3px 3px 0px #000;
+            margin-bottom: 25px;
+            padding: 0 15px;
+        }
+
+        .photo-box {
+            width: 310px;
+            height: 390px;
+            border: 8px solid white;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            background: #222;
+            animation: jumpBeat 0.46s infinite alternate ease-in-out;
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes jumpBeat {
+            0% { transform: translateY(0) scale(1) rotate(-3deg); }
+            100% { transform: translateY(-40px) scale(1.07) rotate(3deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="start-screen">
+        <button id="start-btn">🎁 ОТКРЫТЬ ПОДАРОК 🎁</button>
+    </div>
+
+    <h1>И Я, И Я, И Я, И Я<br>ПОЗДРАВЛЯЮ ТЕБЯ! 🥳</h1>
+
+    <div class="photo-box">
+        <img id="slide-img" src="1.jpg" alt="Фото">
+    </div>
+
+    <audio id="bg-music" src="music.mp3" loop preload="auto"></audio>
+
+    <script>
+        // СПИСОК ФОТО (если у вас расширения .png или .jpeg — поменяйте их здесь)
+        const photos = [
+            '1.jpg',
+            '2.jpg',
+            '3.jpg',
+            '4.jpg',
+            '5.jpg',
+            '6.jpg'
+        ];
+
+        let currentIndex = 0;
+        const imgElement = document.getElementById('slide-img');
+        const audio = document.getElementById('bg-music');
+        const startScreen = document.getElementById('start-screen');
+        const startBtn = document.getElementById('start-btn');
+
+        startBtn.addEventListener('click', function() {
+            // Убираем черный экран
+            startScreen.style.display = 'none';
+            
+            // Запускаем музыку
+            audio.play().catch(function(error) {
+                console.log("Ошибка воспроизведения:", error);
+            });
+
+            // Листаем фотки каждые 920 мс
+            setInterval(function() {
+                currentIndex = (currentIndex + 1) % photos.length;
+                imgElement.src = photos[currentIndex];
+            }, 920);
+        });
+    </script>
+
+</body>
+</html>
